@@ -420,25 +420,25 @@ Monitoring
 ##Adding Prometheus as a Data Source to Grafana 
 ![alt text](ScreenShots/24.png )
  
-            ![alt text](ScreenShots/25.png )
+ ![alt text](ScreenShots/25.png )
      
 ## Monitoring the website 
 -	Prometheus yaml configuration  
  
-            ![alt text](ScreenShots/26.png )
+![alt text](ScreenShots/26.png )
   
 ## Restart Prometheus 
 -	pgrep prometheus 
 -	kill   ##the id - ./prometheus & 
  
-            ![alt text](ScreenShots/27.png )
+  ![alt text](ScreenShots/27.png )
  
  
  
-             ![alt text](ScreenShots/28.png )
+  ![alt text](ScreenShots/28.png )
 
 ## Import the dashboard 
-             ![alt text](ScreenShots/29.png )
+  ![alt text](ScreenShots/29.png )
 
-             ![alt text](ScreenShots/30.png )
+ ![alt text](ScreenShots/30.png )
  
