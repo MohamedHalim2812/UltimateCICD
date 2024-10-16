@@ -273,7 +273,7 @@ a. follow steps from https://plugins.jenkins.io/slack/ Create Credentials
 ![alt text](ScreenShots/14.png )
  configure webhooks in GitHub and SonarQube 
 ![alt text](ScreenShots/15.png )
- 
+![alt text](ScreenShots/16.png )
 Configure nexus on the pom.xml 
  
  	 <distributionManagement> 
@@ -286,7 +286,7 @@ Configure nexus on the pom.xml
             <url>http://localhost:8081/repository/maven-snapshots/</url>  
         </snapshotRepository> 
     </distributionManagement> 
-![alt text](ScreenShots/16.png )
+![alt text](ScreenShots/17.png )
  
 The pipeline: pipeline {     agent any 
      
@@ -379,18 +379,21 @@ stage('Push Docker Image') {     steps {
         } 
 }
 }
-![alt text](ScreenShots/17.png )
-
 ![alt text](ScreenShots/18.png )
-           
-            ![alt text](ScreenShots/19.png )
 
+![alt text](ScreenShots/19.png )
+           
 ![alt text](ScreenShots/20.png )
 
+![alt text](ScreenShots/21.png )
+
+![alt text](ScreenShots/22.png )
  
+![alt text](ScreenShots/23.png ) 
  
+![alt text](ScreenShots/24.png ) 
  
-Monitoring 
+# Monitoring 
 ##Installing Prometheus 
 -	sudo apt update 
 -	wget https://github.com/prometheus/prometheus/releases/download/v2.53.2/prometheus-2.53.2.linuxamd64.tar.gz 
@@ -399,7 +402,7 @@ Monitoring
 -	./prometheus  &       ## to start Prometheus 
 -	18.209.31.67:9090     ## to access prometheus 
  
-![alt text](ScreenShots/21.png )
+![alt text](ScreenShots/25.png )
 
 ##Installing Grafana  
 -	sudo apt-get install -y adduser libfontconfig1 musl 
@@ -407,38 +410,45 @@ Monitoring
 -	sudo dpkg -i grafana-enterprise_11.2.2_amd64.deb 
 -	sudo  /bin/systemctl start grafana-server          ## to start Grafana  
 -	18.209.31.67:3000       ## default username and password : admin 
-![alt text](ScreenShots/22.png )
+![alt text](ScreenShots/26.png )
+
+ ![alt text](ScreenShots/27.png )
  
 ## Installing blackbox_exporter 
 -	Wget https://github.com/prometheus/blackbox_exporter/releases/download/v0.25.0/blackbox_exporter-
 0.25.0.linux-amd64.tar.gz 
 -	tar -xvf  blackbox_exporter-0.25.0.linux-amd64.tar.gz 
 -	cd blackbox_exporter-0.25.0.linux-amd64/ 
--	./blackbox_exporter  &     ##to start blackbox - 18.209.31.67:9115 
-![alt text](ScreenShots/23.png )
+-	./blackbox_exporter  &     ##to start blackbox
+-	  18.209.31.67:9115 
+![alt text](ScreenShots/28.png )
  
 ##Adding Prometheus as a Data Source to Grafana 
-![alt text](ScreenShots/24.png )
- 
- ![alt text](ScreenShots/25.png )
+
+ ![alt text](ScreenShots/29.png )
+ ![alt text](ScreenShots/30.png )
      
 ## Monitoring the website 
 -	Prometheus yaml configuration  
  
-![alt text](ScreenShots/26.png )
+ ![alt text](ScreenShots/31.png )
   
 ## Restart Prometheus 
 -	pgrep prometheus 
 -	kill   ##the id - ./prometheus & 
  
-  ![alt text](ScreenShots/27.png )
+ ![alt text](ScreenShots/32.png )
  
  
- 
-  ![alt text](ScreenShots/28.png )
+   ![alt text](ScreenShots/33.png )
+  
 
 ## Import the dashboard 
-  ![alt text](ScreenShots/29.png )
 
- ![alt text](ScreenShots/30.png )
+
+ ![alt text](ScreenShots/34.png )
+
+  ![alt text](ScreenShots/35.png )
+
+   ![alt text](ScreenShots/36.png )
  
