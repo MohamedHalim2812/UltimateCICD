@@ -437,10 +437,9 @@ stage('Push Docker Image') {     steps {
 -	pgrep prometheus 
 -	kill   ##the id - ./prometheus & 
  
- ![alt text](ScreenShots/32.png )
+ ![alt text](ScreenShots/32.png)
  
- 
-   ![alt text](ScreenShots/33.png )
+   ![alt text](ScreenShots/33.png)
   
 
 ## Import the dashboard 
@@ -448,7 +447,7 @@ stage('Push Docker Image') {     steps {
 
  ![alt text](ScreenShots/34.png )
 
-  ![alt text](ScreenShots/35.png )
+ ![alt text](ScreenShots/35.png )
 
-   ![alt text](ScreenShots/36.png )
+ ![alt text](ScreenShots/36.png )
  
