@@ -4,7 +4,8 @@ Start by creating the infrastructure using Terraform on AWS environment. First w
  
 ## Terraform 
  
-#### Providers     
+#### Providers  
+```
 terraform {     
       required_providers { 
                 aws = { 
@@ -16,7 +17,7 @@ terraform {
     provider "aws" { 
         region = "us-east-1"          
     } 
- 
+ ```
 #### Use the default VPC:     
 data "aws_vpc" "Default-VPC" {         
    default = true 
