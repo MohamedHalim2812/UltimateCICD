@@ -11,8 +11,7 @@ terraform {
                      source  = "hashicorp/aws" 
                      version = "~> 5.0"  # Use the latest version that suits your needs 
                       } 
-                       } 
-    } 
+                       }} 
  
     provider "aws" { 
         region = "us-east-1"          
