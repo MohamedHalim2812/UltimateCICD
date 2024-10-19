@@ -19,16 +19,19 @@ Start by creating the infrastructure using Terraform on AWS environment. First w
  
 #### Use the default VPC:     data "aws_vpc" "Default-VPC" {          default = true 
     }  
-#### Generate a Key Pair and exporting the DEPI-KeyPair.pem file:     resource "tls_private_key" "DEPI-Key" {           algorithm = "RSA" 
+#### Generate a Key Pair and exporting the DEPI-KeyPair.pem file:     
+        resource "tls_private_key" "DEPI-Key" {           
+        algorithm = "RSA" 
         rsa_bits = 4096 
     } 
  
-    # Create the key pair using the public key generated above     resource "aws_key_pair" "DEPI-KeyPair" {          key_name = "DEPI-KeyPair" 
+    # Create the key pair using the public key generated above resource "aws_key_pair" "DEPI-KeyPair" { key_name = "DEPI-KeyPair" 
         public_key = tls_private_key.DEPI-Key.public_key_openssh 
     } 
  
     # Create a local file to save the private key     resource "local_file" "KeyPair" {  
-        content = tls_private_key.DEPI-Key.private_key_pem         filename = "DEPI-KeyPair.pem" 
+        content = tls_private_key.DEPI-Key.private_key_pem         
+        filename = "DEPI-KeyPair.pem" 
     } 
  
     # Output the private key path     output "private_key_path" {          value = local_file.KeyPair.filename     } 
