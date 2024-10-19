@@ -4,12 +4,14 @@ Start by creating the infrastructure using Terraform on AWS environment. First w
  
 ## Terraform 
  
-#### Providers     terraform {     required_providers { 
-        aws = { 
-        source  = "hashicorp/aws" 
-        version = "~> 5.0"  # Use the latest version that suits your needs 
-        } 
-    } 
+#### Providers     
+terraform {     
+      required_providers { 
+                aws = { 
+                     source  = "hashicorp/aws" 
+                     version = "~> 5.0"  # Use the latest version that suits your needs 
+                      } 
+                       } 
     } 
  
     provider "aws" { 
@@ -17,7 +19,9 @@ Start by creating the infrastructure using Terraform on AWS environment. First w
          
     } 
  
-#### Use the default VPC:     data "aws_vpc" "Default-VPC" {          default = true 
+#### Use the default VPC:     
+data "aws_vpc" "Default-VPC" {         
+   default = true 
     }  
 #### Generate a Key Pair and exporting the DEPI-KeyPair.pem file:     
         resource "tls_private_key" "DEPI-Key" {           
