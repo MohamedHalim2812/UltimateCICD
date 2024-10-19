@@ -18,63 +18,106 @@ terraform {
         region = "us-east-1"          
     } 
  ```
-#### Use the default VPC:     
+#### Use the default VPC:    
+```
 data "aws_vpc" "Default-VPC" {         
    default = true 
-    }  
-#### Generate a Key Pair and exporting the DEPI-KeyPair.pem file:     
+    }
+```
+#### Generate a Key Pair and exporting the DEPI-KeyPair.pem file:  
+```
         resource "tls_private_key" "DEPI-Key" {           
         algorithm = "RSA" 
         rsa_bits = 4096 
     } 
- 
-    # Create the key pair using the public key generated above resource "aws_key_pair" "DEPI-KeyPair" { key_name = "DEPI-KeyPair" 
+ ```
+# Create the key pair using the public key generated above resource: 
+```
+"aws_key_pair" "DEPI-KeyPair"
+{ key_name = "DEPI-KeyPair" 
         public_key = tls_private_key.DEPI-Key.public_key_openssh 
     } 
- 
-    # Create a local file to save the private key     resource "local_file" "KeyPair" {  
+ ```
+# Create a local file to save the private key     
+ ```
+resource "local_file" "KeyPair" {  
         content = tls_private_key.DEPI-Key.private_key_pem         
         filename = "DEPI-KeyPair.pem" 
     } 
- 
-    # Output the private key path     output "private_key_path" {          value = local_file.KeyPair.filename     } 
- 
+  ```
+# Output the private key path     
+ ```
+output "private_key_path" {          value = local_file.KeyPair.filename     } 
+  ```
 #### Configure the Security Group for the instances: 
-    resource "aws_security_group" "DEPI-SecurityGroup" {          vpc_id = data.aws_vpc.Default-VPC.id         name = "DEPI-SecurityGroup"         ingress { #To access the VMs via SSH 
-            from_port = 22             to_port = 22             protocol = "tcp"             cidr_blocks = ["0.0.0.0/0"] 
+   ```  
+  resource "aws_security_group" "DEPI-SecurityGroup" {
+           vpc_id = data.aws_vpc.Default-VPC.id
+           name = "DEPI-SecurityGroup"
+         ingress { #To access the VMs via SSH 
+            from_port = 22
+            to_port = 22
+            protocol = "tcp"
+            cidr_blocks = ["0.0.0.0/0"] 
         } 
- 
-        ingress { #For email notifications (will not be used in the project)             from_port = 25             to_port = 25             protocol = "tcp"             cidr_blocks = ["0.0.0.0/0"] 
-        } 
- 
+        ingress { #For email notifications (will not be used in the project)
+                 from_port = 25
+                 to_port = 25
+                 protocol = "tcp"
+                 cidr_blocks = ["0.0.0.0/0"] 
+         } 
+
         ingress { #Range used for most of the applications 
-            from_port = 3000             to_port = 10000             protocol = "tcp"             cidr_blocks = ["0.0.0.0/0"] 
+            from_port = 3000
+            to_port = 10000
+            protocol = "tcp"
+            cidr_blocks = ["0.0.0.0/0"] 
         } 
  
-        ingress { #HTTP             from_port = 80             to_port = 80             protocol = "tcp"             cidr_blocks = ["0.0.0.0/0"] 
+        ingress { #HTTP
+           from_port = 80
+           to_port = 80
+           protocol = "tcp"
+           cidr_blocks = ["0.0.0.0/0"] 
         } 
  
-        ingress { #HTTPS             from_port = 443             to_port = 443             protocol = "tcp"             cidr_blocks = ["0.0.0.0/0"] 
+        ingress { #HTTPS
+               from_port = 443
+               to_port = 443
+               protocol = "tcp"
+               cidr_blocks = ["0.0.0.0/0"] 
         } 
  
         ingress { #Required when setting up Kubernetes cluster 
-            from_port = 6443             to_port = 6443             protocol = "tcp"             cidr_blocks = ["0.0.0.0/0"] 
-        } 
- 
-        ingress { #Range used to send mail notification from our Jenkins pipeline to our gmail address             from_port = 465             to_port = 465             protocol = "tcp" 
+            from_port = 6443
+            to_port = 6443
+            protocol = "tcp"
             cidr_blocks = ["0.0.0.0/0"] 
         } 
  
-        ingress { #Range used for deployment of applications             from_port = 30000             to_port = 32767             protocol = "tcp" 
+        ingress { #Range used to send mail notification from our Jenkins pipeline to our gmail address
+             from_port = 465
+             to_port = 465
+             protocol = "tcp" 
             cidr_blocks = ["0.0.0.0/0"] 
         } 
  
-        egress {             from_port = 0             to_port = 0             protocol = "-1" 
+        ingress { #Range used for deployment of applications
+            from_port = 30000
+             to_port = 32767
+             protocol = "tcp" 
             cidr_blocks = ["0.0.0.0/0"] 
+        } 
+ 
+        egress {
+           from_port = 0
+           to_port = 0
+           protocol = "-1" 
+           cidr_blocks = ["0.0.0.0/0"] 
         } 
      
-    } 
- 
+    }
+```
 #### Kubernetes Cluster 
  
     # Create the EC2 instances     resource "aws_instance" "Master" {         ami           = "ami-0866a3c8686eaeeba"         instance_type = "t2.micro" 
