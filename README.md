@@ -484,7 +484,7 @@ stage('Push Docker Image') {     steps {
 
  ![alt text](ScreenShots/34.png )
 
-![alt text](ScreenShots/35.png)
+![alt text](ScreenShots/35.jpg)
 
- ![alt text](ScreenShots/36.png)
+ ![alt text](ScreenShots/36.jpg)
  
