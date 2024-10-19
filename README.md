@@ -227,74 +227,42 @@ sudo apt install -y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1
  ```
 3.	Run the following commands on the Master node only 
  
-   #   Initialize Kubernetes Master Node  
-•	sudo kubeadm init--pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all 
-•	![alt text](ScreenShots/6.png )
+# Initialize Kubernetes Master Node  
+```
+sudo kubeadm init--pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all
+```
+ ![alt text](ScreenShots/6.png )
  
 #   After running the above command then our vm will acts as master node and it will generate token to connect this with slave node-copy the token and run the command in slave machines 1 & 2 
 ![alt text](ScreenShots/7.png )
- 
- 
-        #   Configure Kubernetes Cluster  
-•	mkdir -p $HOME/.kube 
-•	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config 
-•	sudo chown $(id -u):$(id -g) $HOME/.kube/config 
- 
-        #   Deploy Networking Solution (Calico)  
-•	kubectl apply -f https://docs.projectcalico.org/v3.20/manifests/calico.yaml 
- 
-        #   Deploy Ingress Controller (NGINX)  
-•	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controllerv0.49.0/deploy/static/provider/baremetal/deploy.yaml 
- 
+
+#   Configure Kubernetes Cluster  
+```
+mkdir -p $HOME/.kube 
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config 
+sudo chown $(id -u):$(id -g) $HOME/.kube/config 
+``` 
+# Deploy Networking Solution (Calico)  
+```
+kubectl apply -f https://docs.projectcalico.org/v3.20/manifests/calico.yaml 
+``` 
+# Deploy Ingress Controller (NGINX)  
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controllerv0.49.0/deploy/static/provider/baremetal/deploy.yaml 
+``` 
 4.	We'll Scan Kubernetes Cluster For Any Kind Of Issues Using Cube Audit 
  
-        # Go To The Website & Copy The Linux_amd_64 Link 
-            • 	https://github.com/shopify/kubeaudit/releases 
-        # Paste It Using wget Command 
-        # Now Untar The File Using tar-xvf File Name 
-        # sudo mv kubeaudit /usr/local/bin/->kubeaudit all 
+ # Go To The Website & Copy The Linux_amd_64 Link 
+ https://github.com/shopify/kubeaudit/releases 
+  . Paste It Using wget Command 
+  . Now Untar The File Using tar-xvf File Name 
+ ```
+ sudo mv kubeaudit /usr/local/bin/->kubeaudit all
+```
 ![alt text](ScreenShots/8.png )
  
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-
-
-
-
-
-
-
-
-
-
-
-
- 
-# CI / CD Pipeline 
+### CI / CD Pipeline 
  
 Open Jenkins then Start new project  
 ![alt text](ScreenShots/9.png )
