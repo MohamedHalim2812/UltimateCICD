@@ -120,30 +120,46 @@ output "private_key_path" {          value = local_file.KeyPair.filename     }
 ```
 #### Kubernetes Cluster 
  
-    # Create the EC2 instances     resource "aws_instance" "Master" {         ami           = "ami-0866a3c8686eaeeba"         instance_type = "t2.micro" 
-        key_name = aws_key_pair.DEPI-KeyPair.key_name         tags = { 
+   # Create the EC2 instances  
+   ```
+    resource "aws_instance" "Master" {         
+    ami= "ami-0866a3c8686eaeeba"         
+    instance_type = "t2.micro" 
+    key_name = aws_key_pair.DEPI-KeyPair.key_name        
+    tags = { 
             Name = "Master" 
-        } 
+           } 
     }  
  
-    resource "aws_instance" "Slave-01" {         ami           = "ami-0866a3c8686eaeeba"         instance_type = "t2.micro" 
-        key_name = aws_key_pair.DEPI-KeyPair.key_name         tags = { 
+    resource "aws_instance" "Slave-01" {         
+    ami = "ami-0866a3c8686eaeeba"
+    instance_type = "t2.micro" 
+    key_name = aws_key_pair.DEPI-KeyPair.key_name         
+    tags = { 
             Name = "Slave-01" 
         } 
     }  
  
-    resource "aws_instance" "Slave-02" {         ami           = "ami-0866a3c8686eaeeba"         instance_type = "t2.micro" 
-        key_name = aws_key_pair.DEPI-KeyPair.key_name 
-        tags = { 
+    resource "aws_instance" "Slave-02" {
+    ami= "ami-0866a3c8686eaeeba"
+    instance_type = "t2.micro" 
+    key_name = aws_key_pair.DEPI-KeyPair.key_name 
+    tags = { 
             Name = "Slave-02" 
         } 
     }  
- 
-#### Monitoring Server     resource "aws_instance" "Monitoring" {         ami           = "ami-0866a3c8686eaeeba"         instance_type = "t2.micro" 
-        key_name = aws_key_pair.DEPI-KeyPair.key_name         tags = { 
+ ```
+#### Monitoring Server    
+```
+resource "aws_instance" "Monitoring" {         
+ami = "ami-0866a3c8686eaeeba"         
+instance_type = "t2.micro" 
+key_name = aws_key_pair.DEPI-KeyPair.key_name         
+tags = { 
             Name = "Monitoring" 
         } 
-    } 
+    }
+```
 ## Terraform apply 
 ### 1. Use the default VPC
 ![alt text](ScreenShots/0.png )
