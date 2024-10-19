@@ -181,49 +181,53 @@ tags = {
 ### 1. Access the instances using MobaXterm application. 
 1.	Create a new session.  
 2.	Get the public IP address for each instance from AWS. 
-3.	![alt text](ScreenShots/4.png )
+  	![alt text](ScreenShots/4.png )
  	  
-4.	Copy the public IP address for each instance to the Remote host. 
-5.	Check the Specify username box and enter “ubuntu” as the username. 
-6.	In the Advanced SSH settings, check the Use private key box and place the .pem file. 
-7.	Duplicate the session to create the 2 worker nodes and the Monitoring sessions as well by replacing the Remote host with each IP address. 
+3.	Copy the public IP address for each instance to the Remote host. 
+4.	Check the Specify username box and enter “ubuntu” as the username. 
+5.	In the Advanced SSH settings, check the Use private key box and place the .pem file. 
+6.	Duplicate the session to create the 2 worker nodes and the Monitoring sessions as well by replacing the Remote host with each IP address. 
 ![alt text](ScreenShots/5.png )
- 
-     
  
 ### 2. Setup the Master and Worker Nodes 
 1.	Run the below command to change to root [On Master & Worker Node] 
- 
-        • sudo su  
- 
+ ```
+ • sudo su  
+ ```
 2.	Create an executable file and place the following commands then run the script [On Master & Worker Node] 
  
-        # Update System Packages  
-•	sudo apt-get update 
- 
-        # Install Docker  
-•	sudo apt install docker.io -y 
-•	sudo chmod 666 /var/run/docker.sock 
- 
-        # Install Required Dependencies for Kubernetes  
-•	sudo apt-get install -y apt-transport-https ca-certificates curl gnupg 
-•	sudo mkdir -p -m 755 /etc/apt/keyrings 
- 
-        # Add Kubernetes Repository and GPG Key  
-•	Curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --   dearmor -o 
+# Update System Packages  
+```
+ sudo apt-get update 
+ ```
+# Install Docker  
+```
+sudo apt install docker.io -y 
+sudo chmod 666 /var/run/docker.sock 
+``` 
+# Install Required Dependencies for Kubernetes  
+```
+sudo apt-get install -y apt-transport-https ca-certificates curl gnupg 
+sudo mkdir -p -m 755 /etc/apt/keyrings 
+``` 
+# Add Kubernetes Repository and GPG Key  
+```
+Curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --   dearmor -o 
 /etc/apt/keyrings/kubernetes-apt-keyring.gpg 
-•	echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] 
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] 
 https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list 
- 
-        # Update Package List  
-•	sudo apt update 
- 
-        # Install Kubernetes Components 
-•	sudo apt install -y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1 
- 
+``` 
+# Update Package List  
+```
+sudo apt update 
+ ```
+ # Install Kubernetes Components 
+```
+sudo apt install -y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1 
+ ```
 3.	Run the following commands on the Master node only 
  
-        #   Initialize Kubernetes Master Node  
+   #   Initialize Kubernetes Master Node  
 •	sudo kubeadm init--pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all 
 •	![alt text](ScreenShots/6.png )
  
