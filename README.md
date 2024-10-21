@@ -1,6 +1,6 @@
 # Project Architecture
 
-![alt text](ScreenShots/Project Architecture.jpeg) 
+![alt text](ScreenShots/ProjectArchitecture.jpeg ) 
 
 # Infrastructure 
  
