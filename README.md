@@ -35,21 +35,21 @@ data "aws_vpc" "Default-VPC" {
         rsa_bits = 4096 
     } 
  ```
-# Create the key pair using the public key generated above resource: 
+#### Create the key pair using the public key generated above resource: 
 ```
 "aws_key_pair" "DEPI-KeyPair"
 { key_name = "DEPI-KeyPair" 
         public_key = tls_private_key.DEPI-Key.public_key_openssh 
     } 
  ```
-# Create a local file to save the private key     
+#### Create a local file to save the private key     
  ```
 resource "local_file" "KeyPair" {  
         content = tls_private_key.DEPI-Key.private_key_pem         
         filename = "DEPI-KeyPair.pem" 
     } 
   ```
-# Output the private key path     
+#### Output the private key path     
  ```
 output "private_key_path" {          value = local_file.KeyPair.filename     } 
   ```
@@ -122,9 +122,9 @@ output "private_key_path" {          value = local_file.KeyPair.filename     }
      
     }
 ```
-#### Kubernetes Cluster 
+#### Create the EC2 instances 
  
-   # Create the EC2 instances  
+   #####  Kubernetes Cluster
    ```
     resource "aws_instance" "Master" {         
     ami= "ami-0866a3c8686eaeeba"         
@@ -164,25 +164,25 @@ tags = {
         } 
     }
 ```
-## Terraform apply 
-### 1. Use the default VPC
+### Terraform apply on AWS
+#### 1. Use the default VPC
 ![alt text](ScreenShots/0.png )
  
  
-### 2. Key Pair 
+#### 2. Key Pair 
 ![alt text](ScreenShots/1.png )
  
  
-### 3. Security Group 
+#### 3. Security Group 
 ![alt text](ScreenShots/2.png )
  
-### 4. EC2 instances created using Terraform 
+#### 4. EC2 instances created using Terraform 
 ![alt text](ScreenShots/3.png )
 
  
-## Setup the Kubernetes Cluster 
+### Setup the Kubernetes Cluster 
  
-### 1. Access the instances using MobaXterm application. 
+#### 1. Access the instances using MobaXterm application. 
 1.	Create a new session.  
 2.	Get the public IP address for each instance from AWS. 
   	![alt text](ScreenShots/4.png )
@@ -193,80 +193,82 @@ tags = {
 6.	Duplicate the session to create the 2 worker nodes and the Monitoring sessions as well by replacing the Remote host with each IP address. 
 ![alt text](ScreenShots/5.png )
  
-### 2. Setup the Master and Worker Nodes 
+#### 2. Setup the Master and Worker Nodes 
 1.	Run the below command to change to root [On Master & Worker Node] 
- ```
- • sudo su  
- ```
+  ```
+   • sudo su  
+  ```
 2.	Create an executable file and place the following commands then run the script [On Master & Worker Node] 
- 
-# Update System Packages  
-```
- sudo apt-get update 
+  
  ```
-# Install Docker  
-```
-sudo apt install docker.io -y 
-sudo chmod 666 /var/run/docker.sock 
-``` 
-# Install Required Dependencies for Kubernetes  
-```
-sudo apt-get install -y apt-transport-https ca-certificates curl gnupg 
-sudo mkdir -p -m 755 /etc/apt/keyrings 
-``` 
-# Add Kubernetes Repository and GPG Key  
-```
-Curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --   dearmor -o 
-/etc/apt/keyrings/kubernetes-apt-keyring.gpg 
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] 
-https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list 
-``` 
-# Update Package List  
-```
-sudo apt update 
- ```
- # Install Kubernetes Components 
-```
-sudo apt install -y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1 
- ```
+   # Update System Packages  
+  
+    sudo apt-get update 
+  
+   # Install Docker  
+  
+   sudo apt install docker.io -y 
+   sudo chmod 666 /var/run/docker.sock 
+  
+   # Install Required Dependencies for Kubernetes  
+  
+   sudo apt-get install -y apt-transport-https ca-certificates curl gnupg 
+   sudo mkdir -p -m 755 /etc/apt/keyrings 
+  
+   # Add Kubernetes Repository and GPG Key  
+  
+   Curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --   dearmor -o 
+   /etc/apt/keyrings/kubernetes-apt-keyring.gpg 
+   echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] 
+   https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list 
+  
+   # Update Package List  
+  
+   sudo apt update 
+  
+    # Install Kubernetes Components 
+   
+   sudo apt install -y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1 
+  ```
 3.	Run the following commands on the Master node only 
- 
-# Initialize Kubernetes Master Node  
 ```
-sudo kubeadm init--pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all
+   # Initialize Kubernetes Master Node  
+   
+   sudo kubeadm init--pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all
+   
+   # Note:  After running the above command, our vm will acts as master node and it will generate token to connect this with slave node. (Copy the token and run the command in slave machines 1 & 2.)
 ```
- ![alt text](ScreenShots/6.png )
+![alt text](ScreenShots/6.png )
  
-#   After running the above command then our vm will acts as master node and it will generate token to connect this with slave node-copy the token and run the command in slave machines 1 & 2 
 ![alt text](ScreenShots/7.png )
 
-#   Configure Kubernetes Cluster  
+
 ```
-mkdir -p $HOME/.kube 
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config 
-sudo chown $(id -u):$(id -g) $HOME/.kube/config 
-``` 
+#   Configure Kubernetes Cluster
+    mkdir -p $HOME/.kube 
+    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config 
+    sudo chown $(id -u):$(id -g) $HOME/.kube/config 
+
 # Deploy Networking Solution (Calico)  
-```
-kubectl apply -f https://docs.projectcalico.org/v3.20/manifests/calico.yaml 
-``` 
+
+   kubectl apply -f https://docs.projectcalico.org/v3.20/manifests/calico.yaml 
+
 # Deploy Ingress Controller (NGINX)  
-```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controllerv0.49.0/deploy/static/provider/baremetal/deploy.yaml 
+
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controllerv0.49.0/deploy/static/provider/baremetal/deploy.yaml 
 ``` 
-4.	We'll Scan Kubernetes Cluster For Any Kind Of Issues Using Cube Audit 
- 
- # Go To The Website & Copy The Linux_amd_64 Link 
- https://github.com/shopify/kubeaudit/releases 
-  . Paste It Using wget Command 
-  . Now Untar The File Using tar-xvf File Name 
- ```
- sudo mv kubeaudit /usr/local/bin/->kubeaudit all
-```
+4.	We'll Scan Kubernetes Cluster For Any Kind Of Issues Using Cube Audit
+``` 
+   .  Go To The Website & Copy The Linux_amd_64 Link 
+      .  https://github.com/shopify/kubeaudit/releases 
+   .  Paste It Using wget Command 
+   .  Now Untar The File Using tar-xvf File Name 
+   .  sudo mv kubeaudit /usr/local/bin/->kubeaudit all
+ ```  	
 ![alt text](ScreenShots/8.png )
  
  
-### CI / CD Pipeline 
+## CI / CD Pipeline 
  
 Open Jenkins then Start new project  
 ![alt text](ScreenShots/9.png )
